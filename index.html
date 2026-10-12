@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Fun Learning Land</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff7e6;--card:#fff;--ink:#3a2b5c;--pink:#ff6fae;--blue:#4cc2ff;--yel:#ffd23f;--grn:#5ed38a;--vio:#8f6bff;--sh:0 6px 0 rgba(58,43,92,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#241a3d;--card:#33264f;--ink:#fff4dc}}
+:root[data-theme=dark]{--bg:#241a3d;--card:#33264f;--ink:#fff4dc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Fredoka,'Comic Sans MS',system-ui,sans-serif;min-height:100vh}
+header{text-align:center;padding:22px 14px 8px}h1{font-family:Pacifico,cursive;font-weight:400;font-size:clamp(30px,7vw,52px);margin:0;color:var(--pink)}
+header p{margin:6px 0 0;font-size:18px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px}
+nav button,.btn{font:inherit;font-weight:700;font-size:18px;border:0;border-radius:999px;padding:10px 20px;background:var(--card);color:var(--ink);box-shadow:var(--sh);cursor:pointer}
+nav button.on{background:var(--vio);color:#fff}.btn{background:var(--grn);color:#0b3d1f}.btn.pk{background:var(--pink);color:#fff}
+main{max-width:980px;margin:0 auto;padding:8px 14px 40px}section{display:none}section.on{display:block}
+.card{background:var(--card);border-radius:24px;padding:18px;box-shadow:var(--sh);margin-bottom:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.chip{font:inherit;font-weight:700;border:0;border-radius:14px;padding:8px 14px;background:var(--yel);color:#4a3600;cursor:pointer;box-shadow:var(--sh)}.chip.on{background:var(--blue);color:#05293d}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:12px}
+.L{font:inherit;border:0;border-radius:20px;padding:12px 4px;background:var(--card);color:var(--ink);box-shadow:var(--sh);cursor:pointer;transition:transform .15s}.L:hover{transform:translateY(-4px) rotate(-2deg)}
+.L b{display:block;font-size:40px;line-height:1.1}.L span{font-size:26px}
+.big{text-align:center}.big .bl{font-size:clamp(70px,20vw,130px);font-weight:700;line-height:1;color:var(--pink)}.big .em{font-size:80px}.big h2{margin:6px 0 10px;font-size:28px}
+.eq{font-size:22px;font-weight:600;background:var(--bg);border-radius:12px;padding:8px 14px;margin:6px 0}
+.eqs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px}
+select{font:inherit;font-size:20px;padding:6px 10px;border-radius:12px;border:2px solid var(--vio);background:var(--card);color:var(--ink)}
+.dots{font-size:30px;line-height:1.3;word-break:break-all}
+.bar{height:14px;background:var(--bg);border-radius:9px;overflow:hidden;margin-bottom:14px}.bar i{display:block;height:100%;background:var(--grn);width:0;transition:width .3s}
+.q{font-size:clamp(24px,5vw,34px);font-weight:700;text-align:center;margin:10px 0 18px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}.opts button{font:inherit;font-weight:700;font-size:30px;padding:16px;border:0;border-radius:18px;background:var(--blue);color:#05293d;box-shadow:var(--sh);cursor:pointer}
+.opts button.ok{background:var(--grn)}.opts button.no{background:#ff7a7a}
+input[type=text]{font:inherit;font-size:20px;padding:10px 14px;border-radius:14px;border:2px solid var(--vio);width:min(340px,100%);background:var(--card);color:var(--ink)}
+canvas{width:100%;height:auto;border-radius:12px;box-shadow:var(--sh);background:#fff}
+.center{text-align:center}.fall{position:fixed;top:-40px;font-size:30px;animation:f 3s linear forwards;pointer-events:none}@keyframes f{to{transform:translateY(110vh) rotate(360deg)}}
+</style></head><body>
+<header><h1>Fun Learning Land</h1><p>ABC, numbers, quizzes and a shiny certificate!</p></header>
+<nav id="nav"><button data-t="abc" class="on">🔤 ABC</button><button data-t="math">➕ Math</button><button data-t="quiz">🎯 Quiz</button></nav>
+<main>
+<section id="abc" class="on"><div class="row"><button class="chip on" data-m="both">Aa Both</button><button class="chip" data-m="up">A Capital</button><button class="chip" data-m="lo">a Small</button></div>
+<div class="card big" id="big"></div><div class="grid" id="lg"></div></section>
+<section id="math"><div class="row" id="ops"></div><div class="card"><h2 class="center" id="th">✖️ Times Tables</h2><div class="row" id="tn"></div><div class="eqs" id="eqs"></div></div>
+<div class="card center"><h2>🍎 Play &amp; Count</h2><select id="a"></select> <b id="os" style="font-size:26px">+</b> <select id="b"></select>
+<div class="dots" id="dots"></div></div></section>
+<section id="quiz"><div class="row" id="lvl"></div><div class="card" id="qbox"></div><div class="card center" id="cert" style="display:none"><h2>🏆 You earned a certificate!</h2>
+<p>Type the winner's name:</p><input type="text" id="nm" maxlength="30" placeholder="Winner name"> <button class="btn pk" id="mk">✨ Make certificate</button>
+<div style="margin-top:16px"><canvas id="cv" width="1200" height="850" style="display:none"></canvas><img id="ci" alt="Certificate" style="display:none;width:100%;border-radius:12px;box-shadow:var(--sh)"></div><p><button class="btn" id="dl" style="display:none">⬇️ Download certificate</button></p><p id="msg"></p></div></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],rnd=n=>Math.floor(Math.random()*n);
+const W="Apple🍎,Ball⚽,Cat🐱,Dog🐶,Elephant🐘,Fish🐟,Grapes🍇,Hat🎩,Ice cream🍦,Juice🧃,Kite🪁,Lion🦁,Moon🌙,Nest🪺,Orange🍊,Parrot🦜,Queen👑,Rabbit🐰,Sun☀️,Tiger🐯,Umbrella☂️,Violin🎻,Watermelon🍉,Xylophone🎼,Yo-yo🪀,Zebra🦓".split(",");
+$$('#nav button').forEach(b=>b.onclick=()=>{$$('#nav button').forEach(x=>x.classList.toggle('on',x==b));$$('section').forEach(s=>s.classList.toggle('on',s.id==b.dataset.t))});
+let mode='both';
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.rate=.8;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function lt(i){const c=String.fromCharCode(65+i);return mode=='up'?c:mode=='lo'?c.toLowerCase():c+c.toLowerCase()}
+function showL(i){const w=W[i],c=String.fromCharCode(65+i),m=[...w].findIndex(ch=>ch.codePointAt(0)>255),name=w.slice(0,m),em=w.slice(m);
+$('#big').innerHTML=`<div class="bl">${c}${c.toLowerCase()}</div><div class="em">${em}</div><h2>${c} is for ${name}</h2><button class="btn" id="sp">🔊 Hear it</button>`;
+$('#sp').onclick=()=>say(`${c}. ${c} is for ${name}`);say(`${c}. ${c} is for ${name}`)}
+function drawL(){$('#lg').innerHTML=W.map((w,i)=>`<button class="L" data-i="${i}"><b>${lt(i)}</b><span>${w.slice([...w].findIndex(ch=>ch.codePointAt(0)>255))}</span></button>`).join('');
+$$('.L').forEach(b=>b.onclick=()=>{showL(+b.dataset.i);scrollTo({top:0,behavior:'smooth'})})}
+$$('.chip[data-m]').forEach(c=>c.onclick=()=>{mode=c.dataset.m;$$('.chip[data-m]').forEach(x=>x.classList.toggle('on',x==c));drawL()});
+drawL();$('#big').innerHTML='<div class="em">👆</div><h2>Tap a letter to meet it!</h2>';
+// Math
+let tn=2;$('#tn').innerHTML=[...Array(10)].map((_,i)=>`<button class="chip${i==1?' on':''}" data-n="${i+1}">${i+1}</button>`).join('');
+let op='+';const OPS={'+':'➕ Addition','−':'➖ Subtraction','×':'✖️ Multiplication','÷':'➗ Division'};
+$('#ops').innerHTML=Object.keys(OPS).map(k=>`<button class="chip${k==op?' on':''}" data-o="${k}">${OPS[k]}</button>`).join('');
+function drawT(){$('#th').textContent=OPS[op]+' Practice';$('#os').textContent=op;$('#eqs').innerHTML=[...Array(10)].map((_,i)=>{const k=i+1;let e;if(op=='+')e=`${tn} + ${k} = <b>${tn+k}</b>`;else if(op=='−')e=`${10+tn} − ${k} = <b>${10+tn-k}</b>`;else if(op=='×')e=`${tn} × ${k} = <b>${tn*k}</b>`;else e=`${tn*k} ÷ ${tn} = <b>${k}</b>`;return `<div class="eq">${e}</div>`}).join('')}
+$$('#ops .chip').forEach(c=>c.onclick=()=>{op=c.dataset.o;$$('#ops .chip').forEach(x=>x.classList.toggle('on',x==c));drawT();drawD()});
+$$('#tn .chip').forEach(c=>c.onclick=()=>{tn=+c.dataset.n;$$('#tn .chip').forEach(x=>x.classList.toggle('on',x==c));drawT()});drawT();
+['a','b'].forEach(id=>{$('#'+id).innerHTML=[...Array(10)].map((_,i)=>`<option${i==2?' selected':''}>${i}</option>`).join('');$('#'+id).onchange=drawD});
+function drawD(){let a=+$('#a').value,b=+$('#b').value,h,t;
+if(op=='+'){h=`${'🍎'.repeat(a)} ➕ ${'🍌'.repeat(b)}`;t=`${a} + ${b} = ${a+b}`}
+else if(op=='−'){if(b>a)[a,b]=[b,a];h=`${'🍎'.repeat(a-b)}${'❌'.repeat(b)}`;t=`${a} − ${b} = ${a-b}`}
+else if(op=='×'){h=Array(a).fill('🍎'.repeat(b)||'·').join('<br>');t=`${a} × ${b} = ${a*b}`}
+else{if(b<1){b=1;$('#b').value=1}const q=Math.floor(a/b),r=a%b;h=(q?Array(q).fill('🍎'.repeat(b)).join(' | '):'')+(r?` | ${'🍎'.repeat(r)}`:'');t=`${a} ÷ ${b} = ${q}${r?' remainder '+r:''}`}
+$('#dots').innerHTML=`${h}<br><b style="font-size:34px">${t}</b>`}drawD();
+// Quiz
+let Q=[],qi=0,score=0,cn='';
+function four(ans,gen){const s=new Set([ans]);while(s.size<4)s.add(gen());return [...s].sort(()=>Math.random()-.5)}
+let lv='easy';const LV={easy:'🌱 Easy',medium:'🌟 Medium',hard:'🚀 Hard'};
+$('#lvl').innerHTML=Object.keys(LV).map(k=>`<button class="chip${k==lv?' on':''}" data-l="${k}">${LV[k]}</button>`).join('');
+$$('#lvl .chip').forEach(c=>c.onclick=()=>{lv=c.dataset.l;$$('#lvl .chip').forEach(x=>x.classList.toggle('on',x==c));start()});
+function mkQ(){const qs=[],rl=()=>String.fromCharCode(65+rnd(26)),H=lv=='hard',E=lv=='easy',mx=E?5:H?30:9;
+for(let i=0;i<5;i++){const c=rl(),t=rnd(E?2:3);
+if(t==0)qs.push({q:`Which small letter matches <b>${c}</b>?`,a:c.toLowerCase(),o:four(c.toLowerCase(),()=>rl().toLowerCase())});
+else if(t==1)qs.push({q:`Which capital letter matches <b>${c.toLowerCase()}</b>?`,a:c,o:four(c,rl)});
+else if(H&&rnd(2)){const k=1+rnd(24),x=String.fromCharCode(65+k);qs.push({q:`Which letter comes before <b>${x}</b>?`,a:String.fromCharCode(64+k),o:four(String.fromCharCode(64+k),rl)})}
+else{const k=rnd(25),x=String.fromCharCode(65+k);qs.push({q:`Which letter comes after <b>${x}</b>?`,a:String.fromCharCode(66+k),o:four(String.fromCharCode(66+k),rl)})}}
+for(let i=0;i<5;i++){const t=rnd(E?2:H?4:3);let a=1+rnd(mx),b=1+rnd(mx),r,s;
+if(t==0){r=a+b;s='+'}else if(t==1){if(b>a)[a,b]=[b,a];r=a-b;s='−'}else if(t==2){a=1+rnd(H?12:5);b=1+rnd(H?12:5);r=a*b;s='×'}else{b=2+rnd(9);r=2+rnd(9);a=b*r;s='÷'}
+qs.push({q:`${a} ${s} ${b} = ?`,a:r,o:four(r,()=>Math.max(0,r+rnd(9)-4))})}
+return qs.sort(()=>Math.random()-.5)}
+function mkQold(){const qs=[];
+for(let i=0;i<5;i++){const c=String.fromCharCode(65+rnd(26)),rl=()=>String.fromCharCode(65+rnd(26)),t=rnd(3);
+if(t==0)qs.push({q:`Which small letter matches <b>${c}</b>?`,a:c.toLowerCase(),o:four(c.toLowerCase(),()=>rl().toLowerCase())});
+else if(t==1)qs.push({q:`Which capital letter matches <b>${c.toLowerCase()}</b>?`,a:c,o:four(c,rl)});
+else{const k=rnd(25),x=String.fromCharCode(65+k);qs.push({q:`Which letter comes after <b>${x}</b>?`,a:String.fromCharCode(66+k),o:four(String.fromCharCode(66+k),rl)})}}
+for(let i=0;i<5;i++){const t=rnd(3);let a=1+rnd(9),b=1+rnd(9),r,s;
+if(t==0){r=a+b;s='+'}else if(t==1){if(b>a)[a,b]=[b,a];r=a-b;s='−'}else{a=1+rnd(5);b=1+rnd(5);r=a*b;s='×'}
+qs.push({q:`${a} ${s} ${b} = ?`,a:r,o:four(r,()=>Math.max(0,r+rnd(9)-4))})}
+return qs.sort(()=>Math.random()-.5)}
+function start(){Q=mkQ();qi=0;score=0;$('#cert').style.display='none';$('#ci').style.display='none';$('#dl').style.display='none';$('#msg').textContent='';ask()}
+function ask(){if(qi>=10)return end();const q=Q[qi];
+$('#qbox').innerHTML=`<div class="bar"><i style="width:${qi*10}%"></i></div><div class="q">Question ${qi+1} of 10<br>${q.q}</div><div class="opts">${q.o.map(o=>`<button data-v="${o}">${o}</button>`).join('')}</div>`;
+$$('.opts button').forEach(b=>b.onclick=()=>{const ok=b.dataset.v==String(q.a);if(ok)score++;
+$$('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.v==String(q.a))x.classList.add('ok')});if(!ok)b.classList.add('no');
+setTimeout(()=>{qi++;ask()},ok?700:1300)})}
+function end(){const p=score*10,win=p>=80;
+$('#qbox').innerHTML=`<div class="center"><div style="font-size:70px">${win?'🎉':'💪'}</div><h2>${LV[lv]} level: you scored ${score}/10 (${p}%)</h2><p>${win?'Amazing work, champion! You can get your certificate below.':'Great try! Score 80% or more to unlock your certificate. Practice and try again!'}</p><button class="btn pk" id="again">🔁 Play again</button></div>`;
+$('#again').onclick=start;
+if(win){const d=new Date(),y=String(d.getFullYear()).slice(2),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
+cn=`CIL-${y}${m}${dd}-${(Math.random().toString(36).slice(2,8)).toUpperCase().padEnd(6,'7')}`;
+$('#cert').style.display='block';rain()}}
+function rain(){for(let i=0;i<30;i++){const s=document.createElement('span');s.className='fall';s.textContent=['🎉','⭐','🎈','🌟','🍭'][rnd(5)];s.style.left=rnd(95)+'vw';s.style.animationDelay=Math.random()*1.5+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),5000)}}
+function ctr(x,t,y,font,col){x.font=font;x.fillStyle=col;x.textAlign='center';x.fillText(t,600,y)}
+async function drawC(name){await Promise.all(['700 40px Fredoka','60px Pacifico','80px "Great Vibes"'].map(f=>document.fonts.load(f)));
+const c=$('#cv'),x=c.getContext('2d');x.clearRect(0,0,1200,850);
+let g=x.createLinearGradient(0,0,1200,850);g.addColorStop(0,'#fff7e6');g.addColorStop(1,'#ffe3f1');x.fillStyle=g;x.fillRect(0,0,1200,850);
+x.lineWidth=14;x.strokeStyle='#ff6fae';x.strokeRect(30,30,1140,790);x.lineWidth=5;x.strokeStyle='#ffd23f';x.setLineDash([2,16]);x.lineCap='round';x.strokeRect(54,54,1092,742);x.setLineDash([]);
+x.font='48px serif';x.textAlign='center';['⭐','🎀','🎈','🌟','🍭','🎉'].forEach((e,i)=>{x.fillText(e,120+i*192,120)});['🦁','🍎','📚','🔤','➕','🦓'].forEach((e,i)=>{x.fillText(e,120+i*192,790)});
+ctr(x,'Creative Idea Life',185,'48px Pacifico','#8f6bff');
+ctr(x,'Certificate of Achievement',270,'700 62px Fredoka','#ff6fae');
+ctr(x,'This certificate is proudly presented to',335,'400 28px Fredoka','#3a2b5c');
+let fs=96;x.font=`${fs}px "Great Vibes"`;while(x.measureText(name).width>900&&fs>40){fs-=6;x.font=`${fs}px "Great Vibes"`}
+ctr(x,name,440,`${fs}px "Great Vibes", Pacifico, cursive`,'#4cc2ff');
+x.fillStyle='#ffd23f';x.fillRect(260,465,680,5);
+ctr(x,'for winning the ABC & Math Fun Quiz',520,'600 32px Fredoka','#3a2b5c');
+const B={easy:['🌱 Easy Level Champion','#5ed38a'],medium:['🌟 Medium Level Star','#ffb020'],hard:['🚀 Hard Level Superstar','#ff6fae']}[lv];
+x.font='700 32px Fredoka';const bw=x.measureText(B[0]).width+60;x.fillStyle=B[1];x.beginPath();(x.roundRect||x.rect).call(x,600-bw/2,543,bw,56,28);x.fill();ctr(x,B[0],583,'700 32px Fredoka','#fff');
+ctr(x,`Score: ${score}/10  (${score*10}%)`,648,'700 44px Fredoka','#2fae63');
+const dt=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+x.textAlign='left';x.font='400 22px Fredoka';x.fillStyle='#3a2b5c';x.fillText('Date: '+dt,100,700);x.fillText('Certificate No: '+cn,100,735);
+x.textAlign='center';x.font='52px "Great Vibes"';x.fillStyle='#3a2b5c';x.fillText('Md. Rakib Hossain',900,712);
+x.fillStyle='#3a2b5c';x.fillRect(740,725,320,3)}
+$('#mk').onclick=async()=>{const n=$('#nm').value.trim();if(!n){$('#msg').textContent='Please type the winner\'s name first 😊';return}
+await drawC(n);$('#ci').src=$('#cv').toDataURL('image/png');$('#ci').style.display='block';$('#msg').textContent='';
+$('#dl').style.display='inline-block'}
+$('#dl').onclick=async()=>{try{const d=window.claude?await window.claude.use('downloads'):null;if(!d){const a=document.createElement('a');a.href=$('#cv').toDataURL('image/png');a.download='certificate-'+cn+'.png';document.body.appendChild(a);a.click();a.remove();$('#msg').textContent='If it did not download, touch and hold the certificate picture above, then choose Download image or Save image.';return}const b=await new Promise(r=>$('#cv').toBlob(r,'image/png'));
+const n=$('#nm').value.trim().replace(/[^\w\u0980-\u09FF-]+/g,'_')||'winner';await d.save({filename:`certificate-${n}-${cn}.png`,data:b});$('#msg').textContent='Saved! 🎉'}catch(e){if(!e||e.code!=='declined')$('#msg').textContent='Could not save. Touch and hold the certificate to save it.'}}
+start();
+</script></body></html>
